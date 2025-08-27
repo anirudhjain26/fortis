@@ -1,4 +1,6 @@
-# Fortis — [Live Demo](https://fortis-cs316.vercel.app/)
+# Fortis — [Live Website](https://fortis-cs316.vercel.app/)
+
+[Video Demo](https://drive.google.com/file/d/1p9XE3jujp8zljiyNqBsaE-LCwwNtyD5i/view?usp=sharing)
 
 Fortis is a full-stack fitness web application designed to help users log workouts, track progress, connect with workout partners, and stay accountable. It combines features from popular apps like Strong and Strava into one cohesive platform, offering a seamless experience for fitness enthusiasts.
 
