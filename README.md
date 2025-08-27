@@ -1,117 +1,52 @@
-## Previous Github Repository - [Fortís GitHub](https://github.com/jess-che/fortis)
+# Fortis — [Live Demo](https://fortis-cs316.vercel.app/)
 
-https://github.com/jess-che/fortis 
+Fortis is a full-stack fitness web application designed to help users log workouts, track progress, connect with workout partners, and stay accountable. It combines features from popular apps like Strong and Strava into one cohesive platform, offering a seamless experience for fitness enthusiasts.
 
-## Introduction
+## Features
 
-Fortís
+### Profile & Authentication
+- Google sign-in via Auth0
+- User profiles with customizable details: name, age, height, weight, unit preferences (metric/imperial), and privacy settings
+- Option to delete account and all associated data
 
-## How It Works
+### Workout Logging
+- Add, edit, and delete exercises with sets, reps, weights, and notes
+- Filter exercises by location and muscle group
+- “Quick Add” feature for your 10 most recent exercises
+- Persistent workout sessions saved across refreshes
 
-The Python/Flask server is mapped into to Next.js app under `/api/`.
+### Workout History & Analytics
+- View and sort past workouts by week
+- Weekly recaps with charts and summaries by muscle group
+- Streak tracking with GitHub-style calendar visualization
+- Visual intensity indicators for each workout session
 
-This is implemented using [`next.config.js` rewrites](https://github.com/vercel/examples/blob/main/python/nextjs-flask/next.config.js) to map any request to `/api/:path*` to the Flask API, which is hosted in the `/api` folder.
+### Discover Templates
+- Browse and filter public workout templates by popularity and muscle group
+- Save templates or use them directly in your next session
+- Share templates with friends or publicly
 
-On localhost, the rewrite will be made to the `127.0.0.1:5328` port, which is where the Flask server is running.
+### Social Features
+- Matcher Tool: Find workout partners based on gym location, availability, and fitness goals
+- Friends list with friend requests and search functionality
+- Leaderboard based on total sets completed
 
-In production, the Flask server is hosted as [Python serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python) on Vercel.
+## Tech Stack
 
-Flask connects to the postgreSQL server and makes the queries to interact with the data as necessary in the backend. 
-Furthermore, postgreSQL is also hosted by Vercel and linked to this project.
+- Frontend: Next.js (React)
+- Backend: Python Flask (via Next.js API routes)
+- Database: PostgreSQL (hosted on Vercel)
+- Authentication: Auth0 with Google OAuth
+- Deployment: Vercel
 
-To set up postgreSQL, first connect postgre to storage in your Vercel dashboard.
+## Testing & Data Generation
 
-## Getting Started
-
-The initial framework is based on [Vercel's Next.js Flask Starter](https://vercel.com/templates/next.js/nextjs-flask-starter).
-
-First, clone the project onto your local machine.
-
-Install the Vercel Postgres package:
-```bash
-
-pnpm i @vercel/postgres
-```
-And the latest version of Vercel CLI:
-```bash
-
-pnpm install
-pnpm i -g vercel@latest
-```
-
-To pull link the postgre to project run:
-```bash
-
-vercel link
-```
-To pull latest latest environment variables:
-```bash
-
-vercel env pull .env.development.local
-``` 
-
-Install the Vercel Postgres SDK:
-```bash
-
-npm install @vercel/postgres
-``` 
-
-Next, install the dependencies:
-```bash
-
-pnpm install
-```
-Set up auth0:
-```bash
-
-pnpm add @auth0/nextjs-auth0
-```
-Set up pg:
-```bash
-
-pnpm add pg
-```
-Set up react-select:
-```bash
-
-pnpm install react-select
-```
-Set up cookie-next:
-``` bash
-
-pnpm add cookies-next
-```
-
-Finally, to run the development server:
-```bash
-
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-The Flask server will be running on [http://127.0.0.1:5328](http://127.0.0.1:5328) – feel free to change the port in `package.json` (you'll also need to update it in `next.config.js`).
-
-## Connecting to PostgreSQL database
-We use DataGrip to connect to the database, but any database tool that supports PostgreSQL 15 should work. 
-First, we get the appropriate information from the Vercel homepage;\
-POSTGRES_USER="default"\
-POSTGRES_HOST="ep-polished-cherry-55480419-pooler.us-east-1.postgres.vercel-storage.com"\
-POSTGRES_PASSWORD="now shown here"\
-POSTGRES_DATABASE="verceldb"
-
-Next, input the data into a New Data Source of the type PostgreSQL in DataGrip:
-<img width="798" alt="image" src="https://github.com/jess-che/fortis/assets/63178260/874c23da-0d7b-4038-9e7c-d27cf5254451">\
-Click OK, and your database should load on the left hand side of the screen. Tables will be shown under verceldb > public > tables:
-<img width="351" alt="image" src="https://github.com/jess-che/fortis/assets/63178260/3d15e61d-ef31-4d4f-9003-961b84d3565c">\
-Double clicking on a table lets you see its contents. To make queries, go to File -> New -> Query Console, and then use the console that appears to write and run any SQL queries you desire. 
+We created and tested the platform with 5,000 synthetic users using Python and Mockaroo. The test data included realistic workouts, progression patterns, gym availability, and activity levels. All functionality was validated with scaled data before migrating to a limited production environment.
 
 ## File Structure
 
-Here is an overview of the project's overall file structure:
-
 ```
-my-web-app/
+fortis/
 │
 ├── api/
 │   └── index.py
@@ -122,19 +57,33 @@ my-web-app/
 │   ├── layout.tsx
 │   └── page.tsx
 │
+├── components/
+│   ├── SearchBarComponents/
+│   ├── SocialSearchBarComponents/
+│   └── ...
+│
+├── pages/
+│   ├── _app.js
+│   ├── discover.tsx
+│   ├── friends.tsx
+│   ├── history.tsx
+│   ├── ...
+│
 ├── public/
-│   ├── icons/
+│   ├── animated/
 │   ├── images/
-│   ├── next.svg
-│   └── vercel.svg
+│   └── ...
 │
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── styles/
+├── queries/
+│   ├── CurrentTable.sql
+│   ├── InsertAuth.sql
+│   └── ...
 │
-├── .gitignore
-├── README.md
+├── test_data/
+│   ├── activities.csv
+│   ├── generate_workouts.py
+│   └── ...
+│
 ├── next.config.js
 ├── package.json
 ├── pnpm-lock.yaml
@@ -144,16 +93,65 @@ my-web-app/
 └── tsconfig.json
 ```
 
-- **api/**: Contains server-side code, possibly API endpoints or backend routes.
-- **app/**: Contains files related to the Next.js application, including favicon, global CSS, layout, and main page.
-- **public/**: Holds public assets such as icons, images, and SVG logos.
-- **src/**: Contains the source code for the Next.js application, including components, pages, and styles.
+## Getting Started
 
-*Changes may be made to create a `config/` folder to organize the configuration files.*
+### Prerequisites
+- Node.js and pnpm installed
+- Vercel CLI for deployment and environment management
 
-## Helpful Doccumentation
+### Installation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/) - learn about Flask features and API.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/anirudhjain26/fortis.git
+   cd fortis
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+3. Set up PostgreSQL:
+   - Install the Vercel Postgres package:
+     ```bash
+     pnpm i @vercel/postgres
+     ```
+   - Link the project to Vercel:
+     ```bash
+     vercel link
+     ```
+   - Pull the latest environment variables:
+     ```bash
+     vercel env pull .env.development.local
+     ```
+
+4. Set up additional dependencies:
+   ```bash
+   pnpm add @auth0/nextjs-auth0 pg cookies-next react-select
+   ```
+
+5. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) to view the app. The Flask server will run on [http://127.0.0.1:5328](http://127.0.0.1:5328).
+
+## Deployment
+
+The app is deployed on Vercel, with the Flask server hosted as [Python serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python). PostgreSQL is also hosted on Vercel and linked to the project.
+
+### Challenges
+We encountered deployment roadblocks, such as running out of free Vercel and DBMS trials, but successfully overcame them to deliver a scalable and functional product.
+
+### Related Repositories
+- [Original Repo](https://github.com/jess-che/fortis)
+- [Second Repo](https://github.com/Meeeee6623/fortis)
+
+## Helpful Documentation
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/)
+- [Vercel Documentation](https://vercel.com/docs)
 
